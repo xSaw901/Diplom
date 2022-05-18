@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7cc51c4465e84d969c25d735f7e71175" Name="Diagram1">
+        <EntityTypeShape EntityType="DiplomModel.Hospital" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="DiplomModel.Log_Worker" Width="1.5" PointX="5.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="DiplomModel.LogZak" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="DiplomModel.Postavka" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DiplomModel.Prodaja" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DiplomModel.Sklad" Width="1.5" PointX="1.5" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DiplomModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="DiplomModel.Tovar" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DiplomModel.ZakazList" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="DiplomModel.FK_LogZak_Hospital" ManuallyRouted="false" />
+        <AssociationConnector Association="DiplomModel.FK_ZakazList_Hospital" ManuallyRouted="false" />
+        <AssociationConnector Association="DiplomModel.FK_Postavka_Tovar" ManuallyRouted="false" />
+        <AssociationConnector Association="DiplomModel.FK_Prodaja_ZakazList" ManuallyRouted="false" />
+        <AssociationConnector Association="DiplomModel.FK_Tovar_Sklad" ManuallyRouted="false" />
+        <AssociationConnector Association="DiplomModel.FK_ZakazList_Tovar" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
