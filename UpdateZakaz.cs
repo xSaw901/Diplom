@@ -28,17 +28,17 @@ namespace Diplom
             bool b = true;
             zak1.Tovar_id=(int)comboBox2.SelectedValue;
             zak1.Count = (int)numericUpDown1.Value;
-            if (zak1.Count > db.Tovar.FirstOrDefault(x => x.id == zak1.Tovar_id).Kol_vo)
+            if (comboBox1.Text == "Одобрено")
             {
-                MessageBox.Show("Такого количества товара нет на складе");
-                b = false;
-            }
-            if (b)
-            {
-                zak1.Status = comboBox1.Text;
-                db.SaveChanges();
-                if (zak1.Status == "Одобрено")
+                if (zak1.Count > db.Tovar.FirstOrDefault(x => x.id == zak1.Tovar_id).Kol_vo)
                 {
+                    MessageBox.Show("Такого количества товара нет на складе");
+                    b = false;
+                }
+                if (b)
+                {
+                    zak1.Status = comboBox1.Text;
+
                     var tovar = db.Tovar.FirstOrDefault(x => x.id == zak1.Tovar_id);
                     tovar.Kol_vo = tovar.Kol_vo - (int)numericUpDown1.Value;
                     db.SaveChanges();
@@ -49,8 +49,15 @@ namespace Diplom
                     };
                     db.Prodaja.Add(pr);
                     db.SaveChanges();
+                    MessageBox.Show("Изменено");
+                    
+                    
                 }
             }
+            else 
+                MessageBox.Show("Чота ты обосрался лох");
+            UpdateZakaz z = new UpdateZakaz();
+            z.Close();
 
         }
 
@@ -63,3 +70,4 @@ namespace Diplom
         }
     }
 }
+//

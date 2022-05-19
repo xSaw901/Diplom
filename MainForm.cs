@@ -13,6 +13,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Style;
 using LicenseContext = OfficeOpenXml.LicenseContext;
+using Microsoft.VisualBasic;
 
 namespace Diplom
 {
@@ -33,6 +34,7 @@ namespace Diplom
             tovarDataGridView.Columns[0].Visible = false;
             
             zakazListDataGridView.ContextMenuStrip = contextMenuStrip2;
+            tovarDataGridView.ContextMenuStrip = contextMenuStrip1;
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -217,16 +219,48 @@ namespace Diplom
                 var fileInfo= new FileInfo(fileDialog.FileName);
                     using (var pakage = new ExcelPackage(fileInfo))
                     {
-                        ExcelWorksheet worksheet = pakage.Workbook.Worksheets.Add("Prodaja");
+                        var worksheet = pakage.Workbook.Worksheets.Add("Prodaja");
                         var prod = pakage.Workbook.Worksheets["Prodaja"];
-                        worksheet.Columns[2].AutoFit();
-                        worksheet.Cells.LoadFromCollection(db.Prodaja.Select(x => new { x.id, x.ZakazList.Tovar.Name, x.ZakazList.Count, Общая_цена= x.ZakazList.Tovar.Price * x.ZakazList.Count }), true);
+                        worksheet.Cells["C2:C300"].Style.Numberformat.Format = "yyyy-mm-dd";
+                        worksheet.Cells.LoadFromCollection(db.Prodaja.Select(x => new { x.id, Название = x.ZakazList.Tovar.Name, Дата_продажи = x.Data, Количество = x.ZakazList.Count, Цена_за_единицу = x.ZakazList.Tovar.Price, Общая_цена = x.ZakazList.Tovar.Price * x.ZakazList.Count }), true);
+                        worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+                        worksheet.Cells["A1:F1"].Style.Border.Right.Style = ExcelBorderStyle.Thick;
+                        worksheet.Cells["A1:F1"].Style.Border.Left.Style = ExcelBorderStyle.Thick;
+                        worksheet.Cells["A1:F1"].Style.Border.Bottom.Style = ExcelBorderStyle.Thick;
+                        worksheet.Cells["A1:F1"].Style.Border.Top.Style = ExcelBorderStyle.Thick;
+
+                        worksheet.Cells["C1"].AutoFilter = true;
+                        //worksheet.Cells["D1"].Sort.Fil
+                        worksheet.Cells["D2:D300"].Sort(0, true);
                         pakage.Save();
                     }
                 }
             }
 
+            
+        }
 
+        private void редактироватьНазваниеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           
+            
+                if (tovarDataGridView.SelectedRows.Count > 0 && tovarDataGridView.SelectedRows.Count <= 1)
+                {
+                    int t = tovarDataGridView.Rows.IndexOf(tovarDataGridView.SelectedRows[0]);
+                    int str = Convert.ToInt32(tovarDataGridView.Rows[t].Cells[0].Value);
+                    Tovar del = db.Tovar.FirstOrDefault(b => b.id == str);
+                    var s = Interaction.InputBox($"Редактировать название, {del.Name}");
+
+                        if (!String.IsNullOrEmpty(s))
+                        {
+                            if (del != null)
+                            {
+                               del.Name = s;
+                                db.SaveChanges();
+                            }
+                        }
+
+                }
         }
     }
 }

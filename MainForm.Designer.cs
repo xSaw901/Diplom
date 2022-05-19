@@ -47,12 +47,16 @@
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.изменитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.обновитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.редактироватьНазваниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.изменитьРасположениеТовараToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zakazListDataGridView)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tovarDataGridView)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -190,8 +194,12 @@
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.редактироватьНазваниеToolStripMenuItem,
+            this.изменитьРасположениеТовараToolStripMenuItem,
+            this.toolStripComboBox1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(254, 97);
             // 
             // contextMenuStrip2
             // 
@@ -231,6 +239,24 @@
             this.обновитьToolStripMenuItem.Text = "Обновить";
             this.обновитьToolStripMenuItem.Click += new System.EventHandler(this.обновитьToolStripMenuItem_Click);
             // 
+            // редактироватьНазваниеToolStripMenuItem
+            // 
+            this.редактироватьНазваниеToolStripMenuItem.Name = "редактироватьНазваниеToolStripMenuItem";
+            this.редактироватьНазваниеToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.редактироватьНазваниеToolStripMenuItem.Text = "Редактировать название";
+            this.редактироватьНазваниеToolStripMenuItem.Click += new System.EventHandler(this.редактироватьНазваниеToolStripMenuItem_Click);
+            // 
+            // изменитьРасположениеТовараToolStripMenuItem
+            // 
+            this.изменитьРасположениеТовараToolStripMenuItem.Name = "изменитьРасположениеТовараToolStripMenuItem";
+            this.изменитьРасположениеТовараToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.изменитьРасположениеТовараToolStripMenuItem.Text = "Изменить расположение товара";
+            // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -248,6 +274,7 @@
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tovarDataGridView)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -273,5 +300,8 @@
         private System.Windows.Forms.ToolStripMenuItem обновитьToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ToolStripMenuItem редактироватьНазваниеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem изменитьРасположениеТовараToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
     }
 }
