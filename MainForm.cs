@@ -60,8 +60,13 @@ namespace Diplom
         //Открыть форму добавления заказа
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddForm f2 = new AddForm();
-            f2.Show();
+            if (Program.f1.log == "Работник")
+                MessageBox.Show("Работнику нельзя добавлять заказы");
+            else
+            {
+                AddForm f2 = new AddForm();
+                f2.Show();
+            }
         }
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -243,8 +248,6 @@ namespace Diplom
                         worksheet.Cells["A1:G1"].Style.Border.Top.Style = ExcelBorderStyle.Thick;
                         //тут он фильтрацию добавляет на ячейку С1
                         worksheet.Cells["C1"].AutoFilter = true;
-                        //ну это тип сортировка, но она применяется при создании документа и её нельзя по 1 кнопке менять, так что хуйня, можешь не использовать
-                        worksheet.Cells["D2:D300"].Sort(0, true);
                         //ну и тут сохраняет файл
                         pakage.Save();
                     }
