@@ -56,8 +56,7 @@ namespace Diplom
             }
             else 
                 MessageBox.Show("Чота ты обосрался лох");
-            UpdateZakaz z = new UpdateZakaz();
-            z.Close();
+            Close();
 
         }
 

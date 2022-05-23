@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.zakazListDataGridView = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,14 +44,15 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.редактироватьНазваниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.изменитьРасположениеТовараToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.изменитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.обновитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.редактироватьНазваниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.изменитьРасположениеТовараToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zakazListDataGridView)).BeginInit();
@@ -73,6 +76,10 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(this.comboBox3);
+            this.tabPage1.Controls.Add(this.textBox2);
             this.tabPage1.Controls.Add(this.zakazListDataGridView);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -81,6 +88,23 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Заказы";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(541, 6);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(243, 21);
+            this.comboBox3.TabIndex = 3;
+            this.comboBox3.SelectionChangeCommitted += new System.EventHandler(this.comboBox3_SelectionChangeCommitted);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(121, 7);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 2;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // zakazListDataGridView
             // 
@@ -196,10 +220,23 @@
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.редактироватьНазваниеToolStripMenuItem,
-            this.изменитьРасположениеТовараToolStripMenuItem,
-            this.toolStripComboBox1});
+            this.изменитьРасположениеТовараToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(254, 97);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(254, 48);
+            // 
+            // редактироватьНазваниеToolStripMenuItem
+            // 
+            this.редактироватьНазваниеToolStripMenuItem.Name = "редактироватьНазваниеToolStripMenuItem";
+            this.редактироватьНазваниеToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.редактироватьНазваниеToolStripMenuItem.Text = "Редактировать название";
+            this.редактироватьНазваниеToolStripMenuItem.Click += new System.EventHandler(this.редактироватьНазваниеToolStripMenuItem_Click);
+            // 
+            // изменитьРасположениеТовараToolStripMenuItem
+            // 
+            this.изменитьРасположениеТовараToolStripMenuItem.Name = "изменитьРасположениеТовараToolStripMenuItem";
+            this.изменитьРасположениеТовараToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.изменитьРасположениеТовараToolStripMenuItem.Text = "Изменить расположение товара";
+            this.изменитьРасположениеТовараToolStripMenuItem.Click += new System.EventHandler(this.изменитьРасположениеТовараToolStripMenuItem_Click);
             // 
             // contextMenuStrip2
             // 
@@ -239,23 +276,23 @@
             this.обновитьToolStripMenuItem.Text = "Обновить";
             this.обновитьToolStripMenuItem.Click += new System.EventHandler(this.обновитьToolStripMenuItem_Click);
             // 
-            // редактироватьНазваниеToolStripMenuItem
+            // label3
             // 
-            this.редактироватьНазваниеToolStripMenuItem.Name = "редактироватьНазваниеToolStripMenuItem";
-            this.редактироватьНазваниеToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
-            this.редактироватьНазваниеToolStripMenuItem.Text = "Редактировать название";
-            this.редактироватьНазваниеToolStripMenuItem.Click += new System.EventHandler(this.редактироватьНазваниеToolStripMenuItem_Click);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(390, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(145, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Фильтрация по больницам";
             // 
-            // изменитьРасположениеТовараToolStripMenuItem
+            // label4
             // 
-            this.изменитьРасположениеТовараToolStripMenuItem.Name = "изменитьРасположениеТовараToolStripMenuItem";
-            this.изменитьРасположениеТовараToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
-            this.изменитьРасположениеТовараToolStripMenuItem.Text = "Изменить расположение товара";
-            // 
-            // toolStripComboBox1
-            // 
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(76, 10);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 13);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Поиск";
             // 
             // MainForm
             // 
@@ -269,6 +306,7 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zakazListDataGridView)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
@@ -302,6 +340,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ToolStripMenuItem редактироватьНазваниеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem изменитьРасположениеТовараToolStripMenuItem;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
     }
 }

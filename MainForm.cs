@@ -35,6 +35,9 @@ namespace Diplom
             
             zakazListDataGridView.ContextMenuStrip = contextMenuStrip2;
             tovarDataGridView.ContextMenuStrip = contextMenuStrip1;
+            comboBox3.DisplayMember = "Name";
+            comboBox3.ValueMember = "id"; 
+            comboBox3.DataSource = db.Hospital.Select(x => new { x.Name, x.id }).ToList();
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -209,29 +212,40 @@ namespace Diplom
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            //это тут какя-то лицензия нужна хз зачем это надо но без него у меня не работало
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            //тут путь изначальный чо покажется при выборе куда сохранять
             var file = new FileInfo(fileName: @"C:\Users\kinri\Desktop\Otchet\Otchet.xlsx");
+            // тут хз что но в фильтре вроде показывается формат         |
+            //                                                           v вот тут
             using (SaveFileDialog fileDialog = new SaveFileDialog() { Filter = "Excel Workbook| *.xlsx" })
             {
+                //это если ты в выборе куда сохранять файл нажал на ок, то он будет делать, есл ине нажал то хуй
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 { 
+                    //тут он имя файла сохраняет которое ты должен был написать при указании куда сохранить файл
                 var fileInfo= new FileInfo(fileDialog.FileName);
+                    //тут создает файл с таким именем
                     using (var pakage = new ExcelPackage(fileInfo))
                     {
+                        //добавляет страничку "Prodaja"
                         var worksheet = pakage.Workbook.Worksheets.Add("Prodaja");
-                        var prod = pakage.Workbook.Worksheets["Prodaja"];
+                        // тут устанавливает формат ячейки шоб дата нормально отображалась
                         worksheet.Cells["C2:C300"].Style.Numberformat.Format = "yyyy-mm-dd";
-                        worksheet.Cells.LoadFromCollection(db.Prodaja.Select(x => new { x.id, Название = x.ZakazList.Tovar.Name, Дата_продажи = x.Data, Количество = x.ZakazList.Count, Цена_за_единицу = x.ZakazList.Tovar.Price, Общая_цена = x.ZakazList.Tovar.Price * x.ZakazList.Count }), true);
+                        //тут вывод из бд у меня, в видосе смотрел можно и их таблицы данные брать, а не селектом как я
+                        worksheet.Cells.LoadFromCollection(db.Prodaja.Select(x => new { x.id, Название = x.ZakazList.Tovar.Name, Дата_продажи = x.Data, Количество = x.ZakazList.Count, Цена_за_единицу = x.ZakazList.Tovar.Price, Общая_цена = x.ZakazList.Tovar.Price * x.ZakazList.Count, Заказчик= x.ZakazList.Hospital.Name }), true);
+                        // тут оно короче делает так что бы размер ячейки подстраивался под текст, растягивается ячейка короче
                         worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
-                        worksheet.Cells["A1:F1"].Style.Border.Right.Style = ExcelBorderStyle.Thick;
-                        worksheet.Cells["A1:F1"].Style.Border.Left.Style = ExcelBorderStyle.Thick;
-                        worksheet.Cells["A1:F1"].Style.Border.Bottom.Style = ExcelBorderStyle.Thick;
-                        worksheet.Cells["A1:F1"].Style.Border.Top.Style = ExcelBorderStyle.Thick;
-
+                        // тут ячейкам в диапазоне задаются границы толстенькие
+                        worksheet.Cells["A1:G1"].Style.Border.Right.Style = ExcelBorderStyle.Thick;
+                        worksheet.Cells["A1:G1"].Style.Border.Left.Style = ExcelBorderStyle.Thick;
+                        worksheet.Cells["A1:G1"].Style.Border.Bottom.Style = ExcelBorderStyle.Thick;
+                        worksheet.Cells["A1:G1"].Style.Border.Top.Style = ExcelBorderStyle.Thick;
+                        //тут он фильтрацию добавляет на ячейку С1
                         worksheet.Cells["C1"].AutoFilter = true;
-                        //worksheet.Cells["D1"].Sort.Fil
+                        //ну это тип сортировка, но она применяется при создании документа и её нельзя по 1 кнопке менять, так что хуйня, можешь не использовать
                         worksheet.Cells["D2:D300"].Sort(0, true);
+                        //ну и тут сохраняет файл
                         pakage.Save();
                     }
                 }
@@ -261,6 +275,30 @@ namespace Diplom
                         }
 
                 }
+        }
+
+        private void изменитьРасположениеТовараToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeSklad changeSklad = new ChangeSklad();
+            int t = tovarDataGridView.Rows.IndexOf(tovarDataGridView.SelectedRows[0]);
+            int str = Convert.ToInt32(tovarDataGridView.Rows[t].Cells[0].Value);
+            Tovar del = db.Tovar.FirstOrDefault(b => b.id == str);
+            changeSklad.skladID = str;
+            changeSklad.Show();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < zakazListDataGridView.RowCount; i++)
+                if (Convert.ToString(zakazListDataGridView.Rows[i].Cells[1].Value).ToLower().Contains(textBox2.Text.ToLower()) && textBox2.Text != null && textBox2.Text != "")
+                    zakazListDataGridView.Rows[i].Cells[1].Selected = true;
+                else zakazListDataGridView.Rows[i].Cells[1].Selected = false;
+        }
+
+        private void comboBox3_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            zakazListDataGridView.DataSource = db.ZakazList.Where(x=> x.Hospital.id == (int)comboBox3.SelectedValue).Select(a =>new{ id = a.id, Название = a.Tovar.Name, Количество = a.Count, Статус = a.Status, Заказчик = a.Hospital.Name,Цена = a.Tovar.Price * a.Count }).ToList();
+            dvgStatPaint();
         }
     }
 }
