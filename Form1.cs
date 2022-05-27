@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Diplom
 {
@@ -16,6 +17,7 @@ namespace Diplom
         public int a;
         public string log;
         MainForm f2 = new MainForm();
+        string path = @"C:\Users\kinri\Desktop\Log.txt";
         public Form1()
         {
             db= new DiplomEntities();
@@ -40,6 +42,7 @@ namespace Diplom
                 log = "Заказчик";
                 f2.Show();
                 this.Hide();
+                File.AppendAllText(path, $"\n {DateTime.Now}------Вошел заказчик c логном {autoriz.Logg}");
                 //a = autoriz.Hos_id;
             }
             else
@@ -56,6 +59,7 @@ namespace Diplom
                 log = "Работник";
                 f2.Show();
                 this.Hide();
+                File.AppendAllText(path, $"\n {DateTime.Now}------Вошел работник c логном {autoriz.Logg}");
             }
             else
                 MessageBox.Show("Неверный логин или пароль");

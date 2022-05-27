@@ -22,21 +22,20 @@ namespace Diplom
         DiplomEntities db = new DiplomEntities();
         public ZakazList zak1;
         public int str;
-        //List<Class1> fse;
-        //int i = 0;
+        string path = @"C:\Users\kinri\Desktop\Log.txt";
         public MainForm()
         {
             Program.mainForm = this;
             InitializeComponent();
-           
 
-            tovarDataGridView.DataSource = db.Tovar.Select(x => new {id=x.id, Название = x.Name,Цена= x.Price,Количество = x.Kol_vo,Склад =x.Sklad.Name }).ToList();
+
+            tovarDataGridView.DataSource = db.Tovar.Select(x => new { id = x.id, Название = x.Name, Цена = x.Price, Количество = x.Kol_vo, Склад = x.Sklad.Name }).ToList();
             tovarDataGridView.Columns[0].Visible = false;
-            
+            dgvPaint();
             zakazListDataGridView.ContextMenuStrip = contextMenuStrip2;
-            tovarDataGridView.ContextMenuStrip = contextMenuStrip1;
+            
             comboBox3.DisplayMember = "Name";
-            comboBox3.ValueMember = "id"; 
+            comboBox3.ValueMember = "id";
             comboBox3.DataSource = db.Hospital.Select(x => new { x.Name, x.id }).ToList();
         }
         private void MainForm_Load(object sender, EventArgs e)
@@ -45,16 +44,28 @@ namespace Diplom
             //загрузка списка заказов, для работников выводятся все заказы, а для заказчиков только их заказы
             if (Program.f1.log == "Работник")
             {
-                zakazListDataGridView.DataSource = db.ZakazList.Select(a => new { id = a.id, Название = a.Tovar.Name, Количество = a.Count, Статус = a.Status, Заказчик = a.Hospital.Name,Цена = a.Tovar.Price * a.Count }).ToList();
+                zakazListDataGridView.DataSource = db.ZakazList.Select(a => new { id = a.id, Название = a.Tovar.Name, Количество = a.Count, Статус = a.Status, Заказчик = a.Hospital.Name, Цена = a.Tovar.Price * a.Count }).ToList();
                 zakazListDataGridView.Columns[0].Visible = false;
+                tovarDataGridView.ContextMenuStrip = contextMenuStrip1;
                 dvgStatPaint();
+                richTextBox1.Text=File.ReadAllText(path);
             }
             else
             {
-                zakazListDataGridView.DataSource = db.ZakazList.Where(x => x.id_zak == Program.f1.a).Select(x => new { id = x.id, Название = x.Tovar.Name, Количество = x.Count, Статус = x.Status, Заказчик = x.Hospital.Name, Цена = x.Tovar.Price * x.Count+"" }).ToList();
+                zakazListDataGridView.DataSource = db.ZakazList.Where(x => x.id_zak == Program.f1.a).Select(x => new { id = x.id, Название = x.Tovar.Name, Количество = x.Count, Статус = x.Status, Заказчик = x.Hospital.Name, Цена = x.Tovar.Price * x.Count + "" }).ToList();
                 zakazListDataGridView.Columns[0].Visible = false;
+                comboBox3.Enabled = false;
+                button1.Enabled = false;
+                tabPage3.Parent = null;
+                tabPage4.Parent = null;
+                contextMenuStrip2.Items[1].Enabled = false;
+                contextMenuStrip2.Items[2].Enabled = false;
                 dvgStatPaint();
             }
+            dataGridView1.DataSource = db.Prodaja.Select(x => new { Название = x.ZakazList.Tovar.Name, Дата_продажи = x.Data, Количество = x.ZakazList.Count, Цена_за_единицу = x.ZakazList.Tovar.Price, Общая_цена = x.ZakazList.Tovar.Price * x.ZakazList.Count, Заказчик = x.ZakazList.Hospital.Name }).ToList();
+            //dataGridView1.Columns[0].Visible = false;
+            dataGridView2.DataSource = db.Postavka.Select(x => new { x.Tovar.Name, x.Kol_vo, x.Data }).ToList();
+            //dataGridView2.Columns[0].Visible = false;
 
         }
         //Открыть форму добавления заказа
@@ -75,7 +86,7 @@ namespace Diplom
 
         private void button1_Click(object sender, EventArgs e)
         {
-            PostavkaForm postavka= new PostavkaForm();
+            PostavkaForm postavka = new PostavkaForm();
             postavka.Show();
 
         }
@@ -84,8 +95,9 @@ namespace Diplom
         {
             if (Program.f1.log == "Работник")
             {
-                zakazListDataGridView.DataSource = db.ZakazList.Select(a => new { id = a.id, Название = a.Tovar.Name, Количество = a.Count, Статус = a.Status, Заказчик = a.Hospital.Name, Цена= a.Tovar.Price*a.Count }).ToList();
+                zakazListDataGridView.DataSource = db.ZakazList.Select(a => new { id = a.id, Название = a.Tovar.Name, Количество = a.Count, Статус = a.Status, Заказчик = a.Hospital.Name, Цена = a.Tovar.Price * a.Count }).ToList();
                 zakazListDataGridView.Columns[0].Visible = false;
+                
                 dvgStatPaint();
             }
             else
@@ -98,11 +110,11 @@ namespace Diplom
         //Сортировка списка товаров
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
-           
+
             switch (comboBox1.SelectedIndex)
             {
                 case 0:
-                    tovarDataGridView.DataSource = db.Tovar.OrderBy(x => x.Name).Select(x => new {id=x.id, Название = x.Name, Цена = x.Price, Количество = x.Kol_vo, Склад = x.Sklad.Name }).ToList();
+                    tovarDataGridView.DataSource = db.Tovar.OrderBy(x => x.Name).Select(x => new { id = x.id, Название = x.Name, Цена = x.Price, Количество = x.Kol_vo, Склад = x.Sklad.Name }).ToList();
                     tovarDataGridView.Columns[0].Visible = false;
                     dgvPaint();
                     break;
@@ -139,9 +151,9 @@ namespace Diplom
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             for (int i = 0; i < tovarDataGridView.RowCount; i++)
-                if (Convert.ToString(tovarDataGridView.Rows[i].Cells[1].Value).ToLower().Contains(textBox1.Text.ToLower())&& textBox1.Text!=null && textBox1.Text!="")
+                if (Convert.ToString(tovarDataGridView.Rows[i].Cells[1].Value).ToLower().Contains(textBox1.Text.ToLower()) && textBox1.Text != null && textBox1.Text != "")
                     tovarDataGridView.Rows[i].Cells[1].Selected = true;
-            else tovarDataGridView.Rows[i].Cells[1].Selected = false;
+                else tovarDataGridView.Rows[i].Cells[1].Selected = false;
         }
         //Если заказчик попытается отредактировать свой заказ, то не получится, а если работник, то его перекинет на форму изменения заказа
         private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -170,6 +182,7 @@ namespace Diplom
 
                 if (del != null)
                 {
+                    File.AppendAllText(path, $"\n {DateTime.Now}------Удален заказ на {del.Tovar.Name}");
                     db.ZakazList.Remove(del);
                     db.SaveChanges();
 
@@ -177,11 +190,13 @@ namespace Diplom
                     {
                         zakazListDataGridView.DataSource = db.ZakazList.Select(a => new { id = a.id, Название = a.Tovar.Name, Количество = a.Count, Статус = a.Status, Заказчик = a.Hospital.Name }).ToList();
                         zakazListDataGridView.Columns[0].Visible = false;
+                        dvgStatPaint();
                     }
                     else
                     {
                         zakazListDataGridView.DataSource = db.ZakazList.Where(x => x.id_zak == Program.f1.a).Select(x => new { id = x.id, Название = x.Tovar.Name, Количество = x.Count, Статус = x.Status, Заказчик = x.Hospital.Name }).ToList();
                         zakazListDataGridView.Columns[0].Visible = false;
+                        dvgStatPaint();
                     }
                 }
             }
@@ -225,11 +240,11 @@ namespace Diplom
             //                                                           v вот тут
             using (SaveFileDialog fileDialog = new SaveFileDialog() { Filter = "Excel Workbook| *.xlsx" })
             {
-                //это если ты в выборе куда сохранять файл нажал на ок, то он будет делать, есл ине нажал то хуй
+                //это если ты в выборе куда сохранять файл нажал на ок, то он будет делать
                 if (fileDialog.ShowDialog() == DialogResult.OK)
-                { 
+                {
                     //тут он имя файла сохраняет которое ты должен был написать при указании куда сохранить файл
-                var fileInfo= new FileInfo(fileDialog.FileName);
+                    var fileInfo = new FileInfo(fileDialog.FileName);
                     //тут создает файл с таким именем
                     using (var pakage = new ExcelPackage(fileInfo))
                     {
@@ -238,7 +253,7 @@ namespace Diplom
                         // тут устанавливает формат ячейки шоб дата нормально отображалась
                         worksheet.Cells["C2:C300"].Style.Numberformat.Format = "yyyy-mm-dd";
                         //тут вывод из бд у меня, в видосе смотрел можно и их таблицы данные брать, а не селектом как я
-                        worksheet.Cells.LoadFromCollection(db.Prodaja.Select(x => new { x.id, Название = x.ZakazList.Tovar.Name, Дата_продажи = x.Data, Количество = x.ZakazList.Count, Цена_за_единицу = x.ZakazList.Tovar.Price, Общая_цена = x.ZakazList.Tovar.Price * x.ZakazList.Count, Заказчик= x.ZakazList.Hospital.Name }), true);
+                        worksheet.Cells.LoadFromCollection(db.Prodaja.Select(x => new { x.id, Название = x.ZakazList.Tovar.Name, Дата_продажи = x.Data, Количество = x.ZakazList.Count, Цена_за_единицу = x.ZakazList.Tovar.Price, Общая_цена = x.ZakazList.Tovar.Price * x.ZakazList.Count, Заказчик = x.ZakazList.Hospital.Name }), true);
                         // тут оно короче делает так что бы размер ячейки подстраивался под текст, растягивается ячейка короче
                         worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
                         // тут ячейкам в диапазоне задаются границы толстенькие
@@ -250,34 +265,35 @@ namespace Diplom
                         worksheet.Cells["C1"].AutoFilter = true;
                         //ну и тут сохраняет файл
                         pakage.Save();
+                        File.AppendAllText(path, $"\n {DateTime.Now}------Сформирован отчет по заказам");
                     }
                 }
             }
 
-            
+
         }
 
         private void редактироватьНазваниеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
-            
-                if (tovarDataGridView.SelectedRows.Count > 0 && tovarDataGridView.SelectedRows.Count <= 1)
+
+
+            if (tovarDataGridView.SelectedRows.Count > 0 && tovarDataGridView.SelectedRows.Count <= 1)
+            {
+                int t = tovarDataGridView.Rows.IndexOf(tovarDataGridView.SelectedRows[0]);
+                int str = Convert.ToInt32(tovarDataGridView.Rows[t].Cells[0].Value);
+                Tovar del = db.Tovar.FirstOrDefault(b => b.id == str);
+                var s = Interaction.InputBox($"Редактировать название, {del.Name}");
+
+                if (!String.IsNullOrEmpty(s))
                 {
-                    int t = tovarDataGridView.Rows.IndexOf(tovarDataGridView.SelectedRows[0]);
-                    int str = Convert.ToInt32(tovarDataGridView.Rows[t].Cells[0].Value);
-                    Tovar del = db.Tovar.FirstOrDefault(b => b.id == str);
-                    var s = Interaction.InputBox($"Редактировать название, {del.Name}");
-
-                        if (!String.IsNullOrEmpty(s))
-                        {
-                            if (del != null)
-                            {
-                               del.Name = s;
-                                db.SaveChanges();
-                            }
-                        }
-
+                    if (del != null)
+                    {
+                        del.Name = s;
+                        db.SaveChanges();
+                    }
                 }
+
+            }
         }
 
         private void изменитьРасположениеТовараToolStripMenuItem_Click(object sender, EventArgs e)
@@ -300,8 +316,87 @@ namespace Diplom
 
         private void comboBox3_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            zakazListDataGridView.DataSource = db.ZakazList.Where(x=> x.Hospital.id == (int)comboBox3.SelectedValue).Select(a =>new{ id = a.id, Название = a.Tovar.Name, Количество = a.Count, Статус = a.Status, Заказчик = a.Hospital.Name,Цена = a.Tovar.Price * a.Count }).ToList();
+            zakazListDataGridView.DataSource = db.ZakazList.Where(x => x.Hospital.id == (int)comboBox3.SelectedValue).Select(a => new { id = a.id, Название = a.Tovar.Name, Количество = a.Count, Статус = a.Status, Заказчик = a.Hospital.Name, Цена = a.Tovar.Price * a.Count }).ToList();
             dvgStatPaint();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            //это тут какя-то лицензия нужна хз зачем это надо но без него у меня не работало
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            //тут путь изначальный чо покажется при выборе куда сохранять
+            var file = new FileInfo(fileName: @"C:\Users\kinri\Desktop\Otchet\Otchet.xlsx");
+            // тут хз что но в фильтре вроде показывается формат         |
+            //                                                           v вот тут
+            using (SaveFileDialog fileDialog = new SaveFileDialog() { Filter = "Excel Workbook| *.xlsx" })
+            {
+                //это если ты в выборе куда сохранять файл нажал на ок, то он будет делать
+                if (fileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //тут он имя файла сохраняет которое ты должен был написать при указании куда сохранить файл
+                    var fileInfo = new FileInfo(fileDialog.FileName);
+                    //тут создает файл с таким именем
+                    using (var pakage = new ExcelPackage(fileInfo))
+                    {
+                        //добавляет страничку "Prodaja"
+                        var worksheet = pakage.Workbook.Worksheets.Add("Postavki");
+                        // тут устанавливает формат ячейки шоб дата нормально отображалась
+                        worksheet.Cells["C2:C300"].Style.Numberformat.Format = "yyyy-mm-dd";
+                        //тут вывод из бд у меня, в видосе смотрел можно и их таблицы данные брать, а не селектом как я
+                        worksheet.Cells.LoadFromCollection(db.Postavka.Select(x=>new { x.id, Название= x.Tovar.Name, Дата= x.Data, Количество= x.Kol_vo}) , true);
+                        // тут оно короче делает так что бы размер ячейки подстраивался под текст, растягивается ячейка короче
+                        worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+                        // тут ячейкам в диапазоне задаются границы толстенькие
+                        worksheet.Cells["A1:D1"].Style.Border.Right.Style = ExcelBorderStyle.Thick;
+                        worksheet.Cells["A1:D1"].Style.Border.Left.Style = ExcelBorderStyle.Thick;
+                        worksheet.Cells["A1:D1"].Style.Border.Bottom.Style = ExcelBorderStyle.Thick;
+                        worksheet.Cells["A1:D1"].Style.Border.Top.Style = ExcelBorderStyle.Thick;
+                        //тут он фильтрацию добавляет на ячейку С1
+                        worksheet.Cells["B1:C1"].AutoFilter = true;
+                        //ну и тут сохраняет файл
+                        pakage.Save();
+                        File.AppendAllText(path, $"\n {DateTime.Now}------Сформирован отчет по поставкам товаров");
+                    }
+                }
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Text = File.ReadAllText(path);
+        }
+
+        private void удалитьToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (zakazListDataGridView.SelectedRows.Count > 0 && zakazListDataGridView.SelectedRows.Count <= 1)
+            {
+                int t = tovarDataGridView.Rows.IndexOf(tovarDataGridView.SelectedRows[0]);
+                int str = Convert.ToInt32(tovarDataGridView.Rows[t].Cells[0].Value);
+                Tovar del = db.Tovar.FirstOrDefault(b => b.id == str);
+
+                if (del != null)
+                {
+                    File.AppendAllText(path, $"\n {DateTime.Now}------Удален товар {del.Name}");
+                    db.Tovar.Remove(del);
+                    db.SaveChanges();
+                    tovarDataGridView.DataSource = db.Tovar.Select(x => new { id = x.id, Название = x.Name, Цена = x.Price, Количество = x.Kol_vo, Склад = x.Sklad.Name }).ToList();
+                    tovarDataGridView.Columns[0].Visible = false;
+                    dgvPaint();
+
+
+                }
+            }
+            else
+                MessageBox.Show("Вы не выбрали строку, или выбрали больше одной");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            File.WriteAllText(path, string.Empty);
+            richTextBox1.Clear();
+
         }
     }
 }
+

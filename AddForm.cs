@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Diplom
 {
     public partial class AddForm : Form
     {
+        string path = @"C:\Users\kinri\Desktop\Log.txt";
         DiplomEntities db=new DiplomEntities();
         public AddForm()
         {
@@ -34,10 +36,13 @@ namespace Diplom
                 Count = Convert.ToInt32(numericUpDown1.Value),
                 id_zak = Program.f1.a,
                 Status="Ожидание"
+
             };
             
             db.ZakazList.Add(zak);
             db.SaveChanges();
+            File.AppendAllText(path, $"\n {DateTime.Now}------Заказчик оформил завку на товар {comboBox1.Text} в размере {zak.Count} штук");
+            Close();
         }
     }
 }

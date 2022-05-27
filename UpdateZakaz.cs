@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Diplom
 {
@@ -15,6 +16,7 @@ namespace Diplom
         DiplomEntities db = new DiplomEntities();
         public int zak;
         ZakazList zak1;
+        string path = @"C:\Users\kinri\Desktop\Log.txt";
         public UpdateZakaz()
         {
             InitializeComponent();
@@ -50,12 +52,13 @@ namespace Diplom
                     db.Prodaja.Add(pr);
                     db.SaveChanges();
                     MessageBox.Show("Изменено");
-                    
-                    
+                    File.AppendAllText(path, $"\n {DateTime.Now}------Был одобрен заказ для {db.Hospital.FirstOrDefault(x=> x.id== zak1.id_zak).Name} на товар {zak1.Tovar.Name} в размере {(int)numericUpDown1.Value} штук");
+
+
                 }
             }
-            else 
-                MessageBox.Show("Чота ты обосрался лох");
+            //else 
+                //MessageBox.Show("Чота ты обосрался лох");
             Close();
 
         }

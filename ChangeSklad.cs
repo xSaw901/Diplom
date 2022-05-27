@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Diplom
 {
     public partial class ChangeSklad : Form
     {
         DiplomEntities db= new DiplomEntities();
+        string path = @"C:\Users\kinri\Desktop\Log.txt";
         public ChangeSklad()
         {
             InitializeComponent();
@@ -30,6 +32,7 @@ namespace Diplom
             var tovar = db.Tovar.FirstOrDefault(x=> x.id== skladID);
             tovar.id_Sklada = (int)comboBox1.SelectedValue;
             db.SaveChanges();
+            File.AppendAllText(path, $"\n {DateTime.Now}------Работник изменил расположение товара {tovar.Name} на {(int)comboBox1.SelectedValue}");
             Close();
         }
 

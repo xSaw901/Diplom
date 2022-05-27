@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
+using System.IO;
 
 namespace Diplom
 {
     public partial class PostavkaForm : Form
     {
         DiplomEntities db= new DiplomEntities();
+        string path = @"C:\Users\kinri\Desktop\Log.txt";
         public PostavkaForm()
         {
             InitializeComponent();
@@ -34,6 +36,7 @@ namespace Diplom
             db.Postavka.Add(post);
 
             db.SaveChanges();
+            File.AppendAllText(path, $"\n {DateTime.Now}------Работник добавил постаку товара {post.Tovar.Name} в размере {post.Kol_vo} штук ");
         }
 
         private void PostavkaForm_Load(object sender, EventArgs e)
@@ -77,6 +80,7 @@ namespace Diplom
                                 };
                                 db.Tovar.Add(tov);
                                 db.SaveChanges();
+                                File.AppendAllText(path, $"\n {DateTime.Now}------На склад добавлен товар {tov.Name}");
                                 comboBox1.DataSource = db.Tovar.Select(x => new { x.id, x.Name }).ToList();
                             }
                         }
@@ -85,7 +89,7 @@ namespace Diplom
             }
             catch
             {
-                MessageBox.Show("Вы что-то сделали не так, проверьте что вы натворили");
+                MessageBox.Show("Вы что-то сделали не так, проверьте правильность написанного");
             }
             
         }
