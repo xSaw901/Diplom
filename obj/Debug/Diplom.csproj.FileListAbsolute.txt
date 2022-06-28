@@ -27,3 +27,4 @@ C:\Users\kinri\Desktop\Diplom\Diplom\bin\Debug\EPPlus.xml
 C:\Users\kinri\Desktop\Diplom\Diplom\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml
 C:\Users\kinri\Desktop\Diplom\Diplom\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
 C:\Users\kinri\Desktop\Diplom\Diplom\obj\Debug\Diplom.ChangeSklad.resources
+C:\Users\kinri\Desktop\Diplom\Diplom\obj\Debug\Diplom.SpravkaForm.resources

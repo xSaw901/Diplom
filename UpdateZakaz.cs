@@ -27,41 +27,68 @@ namespace Diplom
         public MainForm mainf = new MainForm();
         private void button1_Click(object sender, EventArgs e)
         {
+            try 
+            { 
+
             bool b = true;
             zak1.Tovar_id=(int)comboBox2.SelectedValue;
             zak1.Count = (int)numericUpDown1.Value;
-            if (comboBox1.Text == "Одобрено")
-            {
-                if (zak1.Count > db.Tovar.FirstOrDefault(x => x.id == zak1.Tovar_id).Kol_vo)
+                if (comboBox1.Text == "Одобрено")
                 {
-                    MessageBox.Show("Такого количества товара нет на складе");
-                    b = false;
-                }
-                if (b)
-                {
-                    zak1.Status = comboBox1.Text;
-
-                    var tovar = db.Tovar.FirstOrDefault(x => x.id == zak1.Tovar_id);
-                    tovar.Kol_vo = tovar.Kol_vo - (int)numericUpDown1.Value;
-                    db.SaveChanges();
-                    Prodaja pr = new Prodaja
+                    if (zak1.Count > db.Tovar.FirstOrDefault(x => x.id == zak1.Tovar_id).Kol_vo)
                     {
-                        Data = DateTime.Now,
-                        id_Zakaza = zak1.id
-                    };
-                    db.Prodaja.Add(pr);
-                    db.SaveChanges();
-                    MessageBox.Show("Изменено");
-                    File.AppendAllText(path, $"\n {DateTime.Now}------Был одобрен заказ для {db.Hospital.FirstOrDefault(x=> x.id== zak1.id_zak).Name} на товар {zak1.Tovar.Name} в размере {(int)numericUpDown1.Value} штук");
+                        MessageBox.Show("Такого количества товара нет на складе");
+                        b = false;
+                    }
+                    if (b)
+                    {
+                        zak1.Status = comboBox1.Text;
+
+                        var tovar = db.Tovar.FirstOrDefault(x => x.id == zak1.Tovar_id);
+                        tovar.Name = comboBox2.Text;
+                        tovar.Kol_vo = tovar.Kol_vo - (int)numericUpDown1.Value;
+                        db.SaveChanges();
+                        Prodaja pr = new Prodaja
+                        {
+                            Data = DateTime.Now,
+                            id_Zakaza = zak1.id
+                        };
+                        db.Prodaja.Add(pr);
+                        db.SaveChanges();
+                        File.AppendAllText(path, $"\n[{DateTime.Now}]------Был одобрен заказ для {db.Hospital.FirstOrDefault(x => x.id == zak1.id_zak).Name} на товар {zak1.Tovar.Name} в размере {(int)numericUpDown1.Value} штук");
+                        Close();
+
+                    }
+                }
+                else
+                {
+                    if (comboBox1.Text == "Отменено")
+                    {
+                        var tovar = db.Tovar.FirstOrDefault(x => x.id == zak1.Tovar_id);
+                        tovar.Name = comboBox2.Text;
+                        zak1.Status = comboBox1.Text;
+                        db.SaveChanges();
+                        Close();
+                        File.AppendAllText(path, $"\n[{DateTime.Now}]------Был отменён заказ для {db.Hospital.FirstOrDefault(x => x.id == zak1.id_zak).Name} на товар {zak1.Tovar.Name} в размере {(int)numericUpDown1.Value} штук");
+                    }
+                    else
+                    {
+                        var tovar = db.Tovar.FirstOrDefault(x => x.id == zak1.Tovar_id);
+                        tovar.Name = comboBox2.Text;
+                        zak1.Status = comboBox1.Text;
+                        Close();
+                    }
 
 
                 }
-            }
-            //else 
-                //MessageBox.Show("Чота ты обосрался лох");
-            Close();
-
+            
         }
+            catch
+            {
+                MessageBox.Show("Вы что-то сломали");
+            }
+
+}
 
         private void UpdateZakaz_Load(object sender, EventArgs e)
         {

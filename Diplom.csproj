@@ -90,11 +90,27 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model2.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model2.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model2.tt</DependentUpon>
+    </Compile>
     <Compile Include="PostavkaForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PostavkaForm.Designer.cs">
       <DependentUpon>PostavkaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpravkaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SpravkaForm.Designer.cs">
+      <DependentUpon>SpravkaForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UpdateZakaz.cs">
       <SubType>Form</SubType>
@@ -164,6 +180,9 @@
     <EmbeddedResource Include="PostavkaForm.resx">
       <DependentUpon>PostavkaForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SpravkaForm.resx">
+      <DependentUpon>SpravkaForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UpdateZakaz.resx">
       <DependentUpon>UpdateZakaz.cs</DependentUpon>
     </EmbeddedResource>
@@ -210,6 +229,14 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model2.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Model2.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Model2.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -30,19 +30,23 @@ namespace Diplom
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ZakazList zak = new ZakazList
+            if ((int)numericUpDown1.Value > 100)
             {
-                Tovar_id = (int)comboBox1.SelectedValue,
-                Count = Convert.ToInt32(numericUpDown1.Value),
-                id_zak = Program.f1.a,
-                Status="Ожидание"
+                ZakazList zak = new ZakazList
+                {
+                    Tovar_id = (int)comboBox1.SelectedValue,
+                    Count = Convert.ToInt32(numericUpDown1.Value),
+                    id_zak = Program.f1.a,
+                    Status = "Ожидание"
 
-            };
-            
-            db.ZakazList.Add(zak);
-            db.SaveChanges();
-            File.AppendAllText(path, $"\n {DateTime.Now}------Заказчик оформил завку на товар {comboBox1.Text} в размере {zak.Count} штук");
-            Close();
+                };
+
+                db.ZakazList.Add(zak);
+                db.SaveChanges();
+                File.AppendAllText(path, $"\n[{DateTime.Now}]------Заказчик оформил завку на товар {comboBox1.Text} в размере {zak.Count} штук");
+                Close();
+            }
+            else MessageBox.Show("Невозможно заказать меньше 100 ед. товара");
         }
     }
 }

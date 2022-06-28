@@ -24,19 +24,35 @@ namespace Diplom
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int post_tov_id = (int)comboBox1.SelectedValue;
-            Postavka post = new Postavka
+            try
             {
-                id_tov = post_tov_id,
-                Data = dateTimePicker1.Value,
-                Kol_vo = (int)numericUpDown1.Value
-            };
-            var tov = db.Tovar.FirstOrDefault(x=> x.id==post_tov_id);
-            tov.Kol_vo=post.Kol_vo+ tov.Kol_vo;
-            db.Postavka.Add(post);
+                if ((int)numericUpDown1.Value > 100)
+                {
+                    if ((int)numericUpDown1.Value < 1000000)
+                    {
+                        int post_tov_id = (int)comboBox1.SelectedValue;
+                        Postavka post = new Postavka
+                        {
+                            id_tov = post_tov_id,
+                            Data = dateTimePicker1.Value,
+                            Kol_vo = (int)numericUpDown1.Value
+                        };
+                        var tov = db.Tovar.FirstOrDefault(x => x.id == post_tov_id);
+                        tov.Kol_vo = post.Kol_vo + tov.Kol_vo;
+                        db.Postavka.Add(post);
 
-            db.SaveChanges();
-            File.AppendAllText(path, $"\n {DateTime.Now}------Работник добавил постаку товара {post.Tovar.Name} в размере {post.Kol_vo} штук ");
+                        db.SaveChanges();
+                        File.AppendAllText(path, $"\n[{DateTime.Now}]------Работник добавил постаку товара {post.Tovar.Name} в размере {post.Kol_vo} штук ");
+                        Close();
+                    }
+                    else MessageBox.Show("Mаксимальный размер поставки 1000000 ед");
+                }
+                else MessageBox.Show("Минимальный размер поставки 100 ед");
+            }
+            catch
+            {
+                MessageBox.Show("Вы что-то сломали");
+            }
         }
 
         private void PostavkaForm_Load(object sender, EventArgs e)
@@ -80,7 +96,7 @@ namespace Diplom
                                 };
                                 db.Tovar.Add(tov);
                                 db.SaveChanges();
-                                File.AppendAllText(path, $"\n {DateTime.Now}------На склад добавлен товар {tov.Name}");
+                                File.AppendAllText(path, $"\n[{DateTime.Now}]------На склад добавлен товар {tov.Name}");
                                 comboBox1.DataSource = db.Tovar.Select(x => new { x.id, x.Name }).ToList();
                             }
                         }

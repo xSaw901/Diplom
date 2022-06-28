@@ -110,6 +110,7 @@
             // 
             // button1
             // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button1.Location = new System.Drawing.Point(12, 373);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -120,6 +121,7 @@
             // 
             // button2
             // 
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button2.Location = new System.Drawing.Point(165, 373);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(116, 23);
@@ -143,7 +145,7 @@
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
             this.Name = "PostavkaForm";
-            this.Text = "PostavkaForm";
+            this.Text = "Поставка";
             this.Load += new System.EventHandler(this.PostavkaForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);

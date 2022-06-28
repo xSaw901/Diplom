@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище DiplomModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Hospital">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Adress" Type="varchar(max)" Nullable="false" />
+    <Property Name="Name" Type="varchar(max)" Nullable="false" />
+    <Property Name="Phone" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Log_Worker">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Logg" Type="varchar(max)" Nullable="false" />
+    <Property Name="Pass" Type="varchar(max)" Nullable="false" />
+    <Property Name="Name" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LogZak">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Logg" Type="varchar(max)" Nullable="false" />
+    <Property Name="Pass" Type="varchar(max)" Nullable="false" />
+    <Property Name="Hos_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Postavka">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_tov" Type="int" Nullable="false" />
+    <Property Name="Data" Type="datetime" Nullable="false" />
+    <Property Name="Kol_vo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Prodaja">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Data" Type="datetime" Nullable="false" />
+    <Property Name="id_Zakaza" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sklad">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Tovar">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar(max)" Nullable="false" />
+    <Property Name="Price" Type="int" Nullable="false" />
+    <Property Name="Kol_vo" Type="int" Nullable="false" />
+    <Property Name="id_Sklada" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ZakazList">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Tovar_id" Type="int" Nullable="false" />
+    <Property Name="Count" Type="int" Nullable="false" />
+    <Property Name="id_zak" Type="int" Nullable="false" />
+    <Property Name="Status" Type="varchar(max)" />
+  </EntityType>
+  <Association Name="FK_LogZak_Hospital">
+    <End Role="Hospital" Type="Self.Hospital" Multiplicity="1" />
+    <End Role="LogZak" Type="Self.LogZak" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hospital">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="LogZak">
+        <PropertyRef Name="Hos_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Postavka_Tovar">
+    <End Role="Tovar" Type="Self.Tovar" Multiplicity="1" />
+    <End Role="Postavka" Type="Self.Postavka" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tovar">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Postavka">
+        <PropertyRef Name="id_tov" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Prodaja_ZakazList">
+    <End Role="ZakazList" Type="Self.ZakazList" Multiplicity="1" />
+    <End Role="Prodaja" Type="Self.Prodaja" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ZakazList">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Prodaja">
+        <PropertyRef Name="id_Zakaza" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tovar_Sklad">
+    <End Role="Sklad" Type="Self.Sklad" Multiplicity="1" />
+    <End Role="Tovar" Type="Self.Tovar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sklad">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Tovar">
+        <PropertyRef Name="id_Sklada" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ZakazList_Hospital">
+    <End Role="Hospital" Type="Self.Hospital" Multiplicity="1" />
+    <End Role="ZakazList" Type="Self.ZakazList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hospital">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ZakazList">
+        <PropertyRef Name="id_zak" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ZakazList_Tovar">
+    <End Role="Tovar" Type="Self.Tovar" Multiplicity="1" />
+    <End Role="ZakazList" Type="Self.ZakazList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tovar">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ZakazList">
+        <PropertyRef Name="Tovar_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище DiplomModelContainer">
+    <EntitySet Name="Hospital" EntityType="Self.Hospital" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Log_Worker" EntityType="Self.Log_Worker" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LogZak" EntityType="Self.LogZak" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Postavka" EntityType="Self.Postavka" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Prodaja" EntityType="Self.Prodaja" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sklad" EntityType="Self.Sklad" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tovar" EntityType="Self.Tovar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ZakazList" EntityType="Self.ZakazList" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_LogZak_Hospital" Association="Self.FK_LogZak_Hospital">
+      <End Role="Hospital" EntitySet="Hospital" />
+      <End Role="LogZak" EntitySet="LogZak" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Postavka_Tovar" Association="Self.FK_Postavka_Tovar">
+      <End Role="Tovar" EntitySet="Tovar" />
+      <End Role="Postavka" EntitySet="Postavka" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Prodaja_ZakazList" Association="Self.FK_Prodaja_ZakazList">
+      <End Role="ZakazList" EntitySet="ZakazList" />
+      <End Role="Prodaja" EntitySet="Prodaja" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tovar_Sklad" Association="Self.FK_Tovar_Sklad">
+      <End Role="Sklad" EntitySet="Sklad" />
+      <End Role="Tovar" EntitySet="Tovar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ZakazList_Hospital" Association="Self.FK_ZakazList_Hospital">
+      <End Role="Hospital" EntitySet="Hospital" />
+      <End Role="ZakazList" EntitySet="ZakazList" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ZakazList_Tovar" Association="Self.FK_ZakazList_Tovar">
+      <End Role="Tovar" EntitySet="Tovar" />
+      <End Role="ZakazList" EntitySet="ZakazList" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -50,14 +50,14 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(70, 160);
+            this.comboBox1.Location = new System.Drawing.Point(90, 167);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(216, 21);
             this.comboBox1.TabIndex = 1;
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(70, 208);
+            this.numericUpDown1.Location = new System.Drawing.Point(90, 208);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             100000000,
             0,
@@ -71,24 +71,27 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.Location = new System.Drawing.Point(7, 168);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 13);
+            this.label2.Size = new System.Drawing.Size(72, 17);
             this.label2.TabIndex = 3;
             this.label2.Text = "Название";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.Location = new System.Drawing.Point(-2, 208);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 13);
+            this.label3.Size = new System.Drawing.Size(86, 17);
             this.label3.TabIndex = 4;
             this.label3.Text = "Количество";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(117, 285);
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.Location = new System.Drawing.Point(112, 330);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 5;
@@ -108,7 +111,7 @@
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
             this.Name = "AddForm";
-            this.Text = "AddForm";
+            this.Text = "Добавление";
             this.Load += new System.EventHandler(this.AddForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);

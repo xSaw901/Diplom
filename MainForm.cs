@@ -63,9 +63,9 @@ namespace Diplom
                 dvgStatPaint();
             }
             dataGridView1.DataSource = db.Prodaja.Select(x => new { Название = x.ZakazList.Tovar.Name, Дата_продажи = x.Data, Количество = x.ZakazList.Count, Цена_за_единицу = x.ZakazList.Tovar.Price, Общая_цена = x.ZakazList.Tovar.Price * x.ZakazList.Count, Заказчик = x.ZakazList.Hospital.Name }).ToList();
-            //dataGridView1.Columns[0].Visible = false;
             dataGridView2.DataSource = db.Postavka.Select(x => new { x.Tovar.Name, x.Kol_vo, x.Data }).ToList();
             //dataGridView2.Columns[0].Visible = false;
+            //dataGridView1.Columns[0].Visible = false;
 
         }
         //Открыть форму добавления заказа
@@ -76,7 +76,7 @@ namespace Diplom
             else
             {
                 AddForm f2 = new AddForm();
-                f2.Show();
+                f2.ShowDialog();
             }
         }
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -87,7 +87,7 @@ namespace Diplom
         private void button1_Click(object sender, EventArgs e)
         {
             PostavkaForm postavka = new PostavkaForm();
-            postavka.Show();
+            postavka.ShowDialog();
 
         }
         //Обновляет таблицу заказов
@@ -168,7 +168,7 @@ namespace Diplom
                 //zak1 = db.ZakazList.FirstOrDefault(x=> x.id==str);
                 UpdateZakaz up = new UpdateZakaz();
                 up.zak = str;
-                up.Show();
+                up.ShowDialog();
             }
         }
         //Удаление выбранного заказа из списка заказа
@@ -182,7 +182,7 @@ namespace Diplom
 
                 if (del != null)
                 {
-                    File.AppendAllText(path, $"\n {DateTime.Now}------Удален заказ на {del.Tovar.Name}");
+                    File.AppendAllText(path, $"\n[{DateTime.Now}]------Удален заказ на {del.Tovar.Name}");
                     db.ZakazList.Remove(del);
                     db.SaveChanges();
 
@@ -265,7 +265,7 @@ namespace Diplom
                         worksheet.Cells["C1"].AutoFilter = true;
                         //ну и тут сохраняет файл
                         pakage.Save();
-                        File.AppendAllText(path, $"\n {DateTime.Now}------Сформирован отчет по заказам");
+                        File.AppendAllText(path, $"\n[{DateTime.Now}]------Сформирован отчет по заказам");
                     }
                 }
             }
@@ -303,7 +303,7 @@ namespace Diplom
             int str = Convert.ToInt32(tovarDataGridView.Rows[t].Cells[0].Value);
             Tovar del = db.Tovar.FirstOrDefault(b => b.id == str);
             changeSklad.skladID = str;
-            changeSklad.Show();
+            changeSklad.ShowDialog();
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -356,7 +356,7 @@ namespace Diplom
                         worksheet.Cells["B1:C1"].AutoFilter = true;
                         //ну и тут сохраняет файл
                         pakage.Save();
-                        File.AppendAllText(path, $"\n {DateTime.Now}------Сформирован отчет по поставкам товаров");
+                        File.AppendAllText(path, $"\n[{DateTime.Now}]------Сформирован отчет по поставкам товаров");
                     }
                 }
             }
@@ -396,6 +396,60 @@ namespace Diplom
             File.WriteAllText(path, string.Empty);
             richTextBox1.Clear();
 
+        }
+
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (tabControl1.SelectedIndex)
+            {
+                case 1:
+                    dgvPaint();
+                    break;
+                case 2:
+                    dataGridView1.DataSource = db.Prodaja.Select(x => new { Название = x.ZakazList.Tovar.Name, Дата_продажи = x.Data, Количество = x.ZakazList.Count, Цена_за_единицу = x.ZakazList.Tovar.Price, Общая_цена = x.ZakazList.Tovar.Price * x.ZakazList.Count, Заказчик = x.ZakazList.Hospital.Name }).ToList();
+                    dataGridView2.DataSource = db.Postavka.Select(x => new { x.Tovar.Name, x.Kol_vo, x.Data }).ToList();
+                    break;
+                case 3: richTextBox1.Text = File.ReadAllText(path);
+                    break;
+            }
+            
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            SpravkaForm spravka = new SpravkaForm();
+            if (Program.f1.log=="Работник")
+            {
+                spravka.SpravkaName = "На вкладке 'Заказы' Вы можете изменять уже существующие заказы(ПКМ по таблице-> Изменить)\n и удалять их(ПКМ по таблице-> Удалить).\nДля поиска по названию, введите полное названия товара, или часть и Вам подсветит те элементы, где встречается данное сочетиние символов.\nДля фильтрации заказов нажните на выпадающее меню сверху и выберите нужное";
+            }
+            else
+            spravka.SpravkaName = "На вкладке 'Заказы' Вы можете добавить новый заказ(ПКМ по таблице-> Добавить\nДля поиска по названию, введите полное названия товара, или часть и Вам подсветит те элементы, где встречается данное сочетиние символов.)";
+            spravka.Show();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            SpravkaForm spravka = new SpravkaForm();
+            if (Program.f1.log == "Работник")
+            {
+                spravka.SpravkaName = "На вкладке 'Склад' вы можеет просматривать информацию по колличеству определенного товара на складе\nТакже Вы можете изменять название товара((ПКМ по таблице-> Измениь название) и изменять номер склада на котором находится этот товар(ПКМ по таблице-> Изменить расположение товара), а также Вы можете удалить любой товар (ПКМ по таблице-> Удалить)), и проводить поиск, введя необходимое словосочетание в поле сверху";
+            }
+            else
+                spravka.SpravkaName = "На вкладке 'Склад' вы можеет просматривать информацию по колличеству определенного товара на складе, а также проводить поиск, введя необходимое словосочетание в поле сверху";
+            spravka.Show();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            SpravkaForm spravka = new SpravkaForm();
+            spravka.SpravkaName = "На вкладке 'Отчет' Вы можете создавать отчеты на поставкам или продажам, нажав на соответствующие кнопки над таблицами";
+            spravka.Show();
+        }
+
+        private void MainForm_FormClosed_1(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

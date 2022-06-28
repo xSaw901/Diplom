@@ -32,7 +32,7 @@ namespace Diplom
             var tovar = db.Tovar.FirstOrDefault(x=> x.id== skladID);
             tovar.id_Sklada = (int)comboBox1.SelectedValue;
             db.SaveChanges();
-            File.AppendAllText(path, $"\n {DateTime.Now}------Работник изменил расположение товара {tovar.Name} на {(int)comboBox1.SelectedValue}");
+            File.AppendAllText(path, $"\n[{DateTime.Now}]------Работник изменил расположение товара {tovar.Name} на {(int)comboBox1.SelectedValue}");
             Close();
         }
 

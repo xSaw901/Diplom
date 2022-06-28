@@ -42,7 +42,7 @@ namespace Diplom
                 log = "Заказчик";
                 f2.Show();
                 this.Hide();
-                File.AppendAllText(path, $"\n {DateTime.Now}------Вошел заказчик c логном {autoriz.Logg}");
+                File.AppendAllText(path, $"\n[{DateTime.Now}]------Вошел заказчик c логном {autoriz.Logg}");
                 //a = autoriz.Hos_id;
             }
             else
@@ -59,7 +59,7 @@ namespace Diplom
                 log = "Работник";
                 f2.Show();
                 this.Hide();
-                File.AppendAllText(path, $"\n {DateTime.Now}------Вошел работник c логном {autoriz.Logg}");
+                File.AppendAllText(path, $"\n[{DateTime.Now}]------Вошел работник c логном {autoriz.Logg}");
             }
             else
                 MessageBox.Show("Неверный логин или пароль");
@@ -81,29 +81,3 @@ namespace Diplom
 
     }
 }
-
-
-
-
-
-
-
-
-//Для кнопки удаления строки из dataGridView
-//    int t;
-//    if (dataGridView1.SelectedRows.Count > 0 && dataGridView1.SelectedRows.Count <= 1)
-//    {
-//        t = dataGridView1.Rows.IndexOf(dataGridView1.SelectedRows[0]);
-//        string str = Convert.ToString(dataGridView1.Rows[t].Cells[0].Value);
-//        //MessageBox.Show(str);
-//        LogZak del = db.LogZak.Where(b => b.Logg == str).FirstOrDefault();
-
-//        if (del != null)
-//        {
-//            db.LogZak.Remove(del);
-//            db.SaveChanges();
-//            dataGridView1.DataSource = db.LogZak.Select(x => new { x.Logg, x.Pass }).ToList();
-//        }
-//    }
-//    else
-//        MessageBox.Show("Вы не выбрали строку, или выбрали больше одной");
